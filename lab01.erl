@@ -3,7 +3,9 @@
 % Jonathan Kim
 
 -module(lab01).
--export([velocity/2, isDifferent/2, parity/1, colorOfTheDay/1, myPerfectSqrt/1, mySum/1, divide1/2, divide2/2]).
+-export([velocity/2, isDifferent/2, parity/1, colorOfTheDay/1, myPerfectSqrt/1, mySum/1, divide/2, fullDivide/2, labStatistics/3, labOne/0]).
+
+-import(io,[format/2]).
 
 % Problem 1.
 velocity(D, T) -> D / T.
@@ -38,52 +40,31 @@ mySum(Boundary) -> mySum(Boundary, 0, 1).
 mySum(Boundary, Sum, Count) when (Boundary >= Count)-> mySum(Boundary, Sum + Count, Count + 1);
 mySum(_, Sum, _) -> Sum.
 
-divide1(A,B) -> divide1(A,B,0).
+% Problem 7
+divide(A,B) -> divide(A,B,0).
 
-divide1(A, B, Quotient) when (A >= 0)-> divide1(A - B, B, Quotient - -1);
-divide1(_, _, Quotient) -> Quotient.
+divide(_, 0, _) -> div_by_zero_error;
+divide(A, B, Quotient) when (A - B >= 0)-> divide(A - B, B, Quotient - -1);
+divide(_, _, Quotient) -> Quotient.
 
 
+% Problem 8
 fullDivide (A,B) -> fullDivide(A,B,0).
 
-fullDivide(A, B, Quotient) when (A >= 0)-> fullDivide(A - B, B, Quotient - -1);
+fullDivide(A, B, Quotient) when (A - B >= 0) -> fullDivide(A - B, B, Quotient - -1);
 fullDivide(A, _, Quotient) -> {Quotient, A}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 9
+labStatistics(Role, Name, Contribution) when (Role =:= leader) -> labStatistics({Role, Name, Contribution});
+labStatistics(Role, Name, Contribution) when (Role =:= student) -> labStatistics({Role, Name, Contribution});
+labStatistics(_, _, _) -> dont_do_that.
 
-% 8 - 1 = 7
-% 8 - 1 = 6
-% 8 - 6 = 2
-% 3 / 2
-% 
-% 3 - 2 = 1
-% 
+labStatistics({leader, Name, Contribution}) -> io:format("LEADER: ~s's contribution was ~p%~n", [Name, Contribution * 100]);
+labStatistics({student, Name, Contribution}) -> io:format("~s's contribution was ~p%~n", [Name, Contribution * 100]).
 
-divide2(A,B) -> divide2(A,B,A).
-
-divide2(A,B, Count) when (B > 0) -> divide2(A, A - B, Count - 1);
-divide2(A, _, Count) -> A - Count.
-
-% 4 / 2 = 2
-% 
-% 4 - 2 = 2
-% 
-% 6 / 2 = 3
-% 
-% 6 - 1 - 1 - 1 = 3 
-% 
-% 8 / 2 = 4
-% 
-% 2
-% 8 - 1 - 1 - 1 - 1
-% 
-% 10 / 5
-% 
-% 5
-% 10 - 1 - 1 - 1 - 1 - 1
-% 
-% 8 / 4 = 2
-% 
-% 8 - 4 - 4
-% A, B
-% when (B > 0) call(A, A - B, Count - 1)
+% Problem 10
+labOne() -> 
+    labStatistics({leader, 'Caleb', 0.4}),
+    labStatistics({student, 'Jonathan', 0.3}),
+    labStatistics({student, 'Terence', 0.3}),
+    done.
