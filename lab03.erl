@@ -6,19 +6,14 @@
 %-export([]).
 -compile(export_all).
 
-%-import(io,[format/2]).
+%-import(lists, io,[format/2]).
 
-% Problem 1.
-
-
-% Problem 2.
-
-
-% Problem 3.
 
 
 % Problem 4
+mapReduce(F, G, Acc, List) -> lists:foldl(G, Acc, lists:map(F, List)).
 
+flip(N) -> -1 * N.
 
 % Problem 5
 
