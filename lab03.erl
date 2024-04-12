@@ -6,7 +6,7 @@
 %-export([]).
 -compile(export_all).
 
-%-import(lists, io,[format/2]).
+-import(lists, [filter/2]).
 
 
 
@@ -19,6 +19,11 @@ flip(N) -> -1 * N.
 
 
 % Problem 6
+myPartition(Pred, L) -> myPartition(Pred, L, []).
+myPartition(Pred, L, Accum) ->  
+    TrueFilter = lists:filter(Pred, L),
+    FalseFilter = lists:filter(fun (ElementOfL) -> [] == lists:filter(fun (ElementOfTrueList) -> ElementOfL == ElementOfTrueList end, TrueFilter) end, L),
+    {TrueFilter, FalseFilter}.
 
 
 % Problem 7
