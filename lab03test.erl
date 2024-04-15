@@ -1,6 +1,11 @@
--module(lab03test).
+% Caleb Krauter
+% Terence Fornelosa Trajano
+% Jonathan Kim
 
+-module(lab03test).
 -include_lib("eunit/include/eunit.hrl").
+
+% Problem 3
 
 calculateTotals_base_test() ->
     ?assertEqual([{123,189.81}], qa:calculateTotals([{123, 9.99, 10, 0.9}])).
@@ -50,6 +55,24 @@ calculateTotals_string_cost_test() ->
 calculateTotals_tuples_test() ->
     ?assertEqual([{123,189.81}, {456, 50}, {1, 2}], qa:calculateTotals([{123, 9.99, 10, 0.9}, {456, 10, 5, 0}, {anatom}, {789, -1, 10, 0.1}, {1, 1, 1, 1}])).
 
-mapReduce_test() ->
-    ?assertEqual(lab03:mapReduce(fun (N) -> -1 * N end, fun (X, Y) -> X * Y end, 1, [3,6]), 18).
+% Problem 5
 
+mapReduce_Negative_test() ->
+    ?assertEqual(lab03:mapReduce(fun lab03:flip/1, fun (X, Y) -> X * Y end, 1, [-3,6]), -18).
+
+mapReduce_Negative_Zero_test() ->
+    ?assert(lab03:mapReduce(fun lab03:flip/1, fun (X, Y) -> X * Y end, 1, [-0,6]) =:= 0).
+
+mapReduce_test() ->
+    ?assert(lab03:mapReduce(fun lab03:flip/1, fun (X, Y) -> X * Y end, 1, [3,6]) =:= 18).
+
+% Problem 7
+
+myPartition_test() ->
+    ?assertEqual(lab03:myPartition(fun(A) -> A rem 2 == 1 end, [1,2,3,4,5,6,7]), {[1,3,5,7], [2,4,6]}).
+
+myPartition_True_test() ->
+    ?assertEqual(lab03:myPartition(fun(A) -> A rem 2 >= 0 end, [1,2,3,4,5,6,7]), {[1,2,3,4,5,6,7], []}).
+
+myPartition_False_test() ->
+    ?assertEqual(lab03:myPartition(fun(A) -> A < 0 end, [1,2,3,4,5,6,7]), {[], [1,2,3,4,5,6,7]}).
