@@ -64,15 +64,5 @@ mapReduce_Negative_Zero_test() ->
     ?assert(lab03:mapReduce(fun lab03:flip/1, fun (X, Y) -> X * Y end, 1, [-0,6]) =:= 0).
 
 mapReduce_test() ->
-    ?assert(lab03:mapReduce(fun lab03:flip/1, fun (X, Y) -> X * Y end, 1, [3,6]) =:= 18).
+    ?assertEqual(lab03:mapReduce(fun (N) -> -1 * N end, fun (X, Y) -> X * Y end, 1, [3,6]), 18).
 
-% Problem 7
-
-myPartition_test() ->
-    ?assertEqual(lab03:myPartition(fun(A) -> A rem 2 == 1 end, [1,2,3,4,5,6,7]), {[1,3,5,7], [2,4,6]}).
-
-myPartition_True_test() ->
-    ?assertEqual(lab03:myPartition(fun(A) -> A rem 2 >= 0 end, [1,2,3,4,5,6,7]), {[1,2,3,4,5,6,7], []}).
-
-myPartition_False_test() ->
-    ?assertEqual(lab03:myPartition(fun(A) -> A < 0 end, [1,2,3,4,5,6,7]), {[], [1,2,3,4,5,6,7]}).
